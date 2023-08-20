@@ -8,7 +8,22 @@
     --shadow-2: #00000025;
 
     --main-font-color: #292929;
+
+    --border-color: #7c7c7c;
+
+    --border-focus: #007bff88;
+    --invalid: #f91b1b6a;
+
+    --submit-bg: #007bff;
+    --submit-bg-hover: #0073ef;
+
+    --stripped-table: #d8ebff;
+
+    --remove: #ff3030;
 }
+
+
+/* ~~~ Global Configs ~~~ */
 
 html {
     margin: 0;
@@ -20,9 +35,17 @@ body {
     background-color: var(--bg-body);
 }
 
+
+/* ~~~ Global Classes ~~~ */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .card {
     max-width: 300px;
-    height: 300px;
+    min-height: 300px;
     background-color: var(--bg-card);
     border-radius: 5px;
     box-shadow: 4px 4px 10px var(--shadow);
@@ -34,4 +57,122 @@ body {
 .card h2 {
     font-weight: 700;
     text-align: center;
+}
+
+.form-inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form input {
+    width: 90%;
+    margin: 0 auto;
+    height: 40px;
+    background: transparent;
+    border: solid 1px var(--border-color);
+    outline: none;
+    margin: 5px 0px;
+    border-radius: 5px;
+    padding: 5px 20px;
+    box-sizing: border-box;
+}
+
+form input:focus {
+    border: solid 3px var(--border-focus);
+}
+
+.invalid {
+    border: solid 3px var(--invalid) !important;
+}
+
+.form-submit-bnt {
+    padding: 10px 0px;
+    display: flex;
+    justify-content: center;
+}
+
+.submit-btn {
+    background: var(--submit-bg);
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    height: 40px;
+    border-radius: 5px;
+    color: var(--bg-body);
+    transition: 0.5s;
+    width: 90%;
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-btn:hover {
+    background: var(--submit-bg-hover);
+}
+
+span.ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 600ms linear;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.icon-button {
+    background: transparent;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.icon-button span {
+    color: var(--remove);
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* ~~~ Table ~~~ */
+
+table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+    padding: 5px;
+    overflow: hidden;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    box-shadow: 4px 4px 10px var(--shadow);
+}
+
+table thead {
+    background: var(--submit-bg-hover);
+    height: 30px;
+
+}
+
+table thead th {
+    flex: 1;
+    color: var(--bg-body);
+    font-weight: 600;
+    border: none;
+}
+
+table tbody tr td {
+    padding: 5px 10px;
+    box-sizing: border-box;
+    font-weight: 500;
+    color: var(--main-font-color);
+    text-align: center;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: var(--stripped-table);
 }
