@@ -65,7 +65,7 @@ body {
     align-items: center;
 }
 
-form input {
+form input, form select {
     width: 90%;
     margin: 0 auto;
     height: 40px;
@@ -76,14 +76,21 @@ form input {
     border-radius: 5px;
     padding: 5px 20px;
     box-sizing: border-box;
+    transition: 0.1s;
 }
 
-form input:focus {
+form input:focus, form select:focus {
     border: solid 3px var(--border-focus);
+    box-shadow: 0 0 3px var(--border-focus);
+}
+
+form select {
+    cursor: pointer;
 }
 
 .invalid {
     border: solid 3px var(--invalid) !important;
+    box-shadow: 0 0 3px var(--invalid) !important;
 }
 
 .form-submit-bnt {
@@ -129,6 +136,11 @@ span.ripple {
 
 .icon-button span {
     color: var(--remove);
+}
+
+#create-list {
+    max-width: 200px;
+    margin-top: 30px;
 }
 
 @keyframes ripple {
