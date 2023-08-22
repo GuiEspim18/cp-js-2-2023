@@ -14,6 +14,10 @@ const inputs = [
 ];
 const button = document.querySelector("button.submit-btn");
 const tbody = document.querySelector("table>tbody");
+/** 
+ * @type {{ type: string; name: string; placeholder: string;}[]}
+ */
+const rows = new Array();
 
 
 /** 
@@ -73,6 +77,7 @@ function validate() {
         tr.appendChild(iconTd);
         tbody.appendChild(tr);
         removeBtn.addEventListener("click", () => tr.remove())
+        rows.push(formData);
         for (let item of inputs) item.input.value = "";
     }
 }
