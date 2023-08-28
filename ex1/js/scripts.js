@@ -1,11 +1,5 @@
-/** 
- * @type {{ description: string; author: string; department: string; importance: number}}
- */
 let formData = new Object();
 const form = document.querySelector("div.form-inputs");
-/** 
- * @type {{name: string; value: string; disabled: boolean}[]}
- */
 const options = [
     { name: "Departamento", value: "", disabled: true},
     { name: "RH", value: "rh", disabled: false},
@@ -13,29 +7,26 @@ const options = [
     { name: "TI", value: "ti", disabled: false},
     { name: "Administrativo", value: "administrativo",disabled: false},
 ];
-/** 
- * @type {{type: string; name: string; placeholder: string; input: HTMLInputElement, options: {name: string; value: string}[]}[]}
- */
+const importance =[
+    { name: "Importância", value: "", disabled: true},
+    { name: "Prioridade 1", value: 1, disabled: false},
+    { name: "Prioridade 2", value: 2, disabled: false},
+    { name: "Prioridade 3", value: 3, disabled: false},
+    { name: "Prioridade 4", value: 4,disabled: false},
+    { name: "Prioridade 5", value: 5,disabled: false},
+];
 const inputs = [
     { type: "text", name: "description", placeholder: "Descrição" },
     { type: "text", name: "author", placeholder: "Autor" },
     { type: "select", name: "department", placeholder: "Departamento", options: options },
-    { type: "number", name: "importance", placeholder: "Importancia" }
+    { type: "select", name: "importance", placeholder: "Importância", options: importance },
+    { type: "number", name: "value", placeholder: "Valor"},
 ];
 const button = document.querySelector("button#submit");
 const tbody = document.querySelector("table>tbody");
-/** 
- * @type {{ description: string; author: string; department: string; importance: number}[]}
- */
 const list = new Array();
 const ol = document.querySelector("ol");
 
-
-/** 
- * function to add inputs to form on html
- * @param { Element | null } form 
- * @param {{ type: string; name: string; placeholder: string; input: HTMLInputElement, options: {name: string; value: string; disabled: boolean}[]}[]} inputs
- */
 function addInputs(form, inputs) {
     for (const item of inputs) {
         let input = document.createElement("input");
@@ -58,13 +49,6 @@ function addInputs(form, inputs) {
     }
 }
 
-
-/** 
- * function to add form inputs event to get the form value
- * @param {{ type: string; name: string; placeholder: string; input: HTMLInputElement}[]} inputs 
- * @param { Element } button
- */
-
 function addFormEvents(inputs, button) {
     for (let item of inputs) {
         if (item.type === "input") item.input.addEventListener('keyup', () => formData[item.name] = item.input.value);
@@ -85,37 +69,21 @@ function validate() {
             }
         } 
     } else {
-        list.push(formData)
-        // const tr = document.createElement("tr");
-        // const removeBtn = document.createElement("button");
-        // removeBtn.classList.add("icon-button")
-        // const icon = document.createElement("span");
-        // icon.classList.add("material-symbols-outlined");
-        // icon.innerText = "delete";
-        // const iconTd = document.createElement("td");
-        // removeBtn.append(icon);
-        // iconTd.appendChild(removeBtn);
-        // for (let item in formData) {
-        //     const td = document.createElement("td");
-        //     td.innerText = formData[item];
-        //     tr.appendChild(td);
-        // }
-        // tr.appendChild(iconTd);
-        // tbody.appendChild(tr);
-        // const listItem = { value: formData.description, importance: Number(formData.importance) }
-        // list.push(listItem);
-        // tr.id = list.indexOf(listItem)
-        // removeBtn.addEventListener("click", () => removeFormList(tr))
-        populate(list)
-        for (let item of inputs) item.input.value = "";
-        formData = new Object();
+        if (formData.author && formData.department && formData.description&& formData.importance && formData.value) {
+            list.push(formData)
+            populate(list)
+            for (let item of inputs) item.input.value = "";
+            formData = new Object();
+        } else {
+            for (let item of inputs) {
+                if (item.input.value.length === 0 || item.input.value === "") {
+                    item.input.classList.add("invalid");
+                    item.input.addEventListener('focus', () => item.input.classList.remove("invalid"));
+                }
+            } 
+        }
     }
 }
-
-/** 
- * @param {{ description: string; author: string; department: string; importance: number}[]} l
- */
-
 
 function populate(l) {
     tbody.replaceChildren();
@@ -148,21 +116,12 @@ function populate(l) {
     });
 }
 
-/** 
- * @param {{ description: string; author: string; department: string; importance: string;}} item
- */
-
 function removeFormList(item) {
     const index = list.indexOf(item);
     list.splice(index, 1);
+    populate(list);
 }
 
-
-/** 
- * function to submit the form and get the event from object form
- * @param {{ description: string; author: string; department: string; importance: string;}} value
- * @returns { boolean }
- */
 function submit(value) {
     for (let item in value) {
         if (value.hasOwnProperty(item) === undefined || value[item].length === 0) return false;
@@ -170,16 +129,7 @@ function submit(value) {
     }
 }
 
-
-/** 
- * Function to add the event ripple to the button
- * @param { Event } event
- */
 function createRipple(event) {
-    /** 
-     * Creating button
-     * @type { HTMLButtonElement }
-     */
     const button = event.currentTarget;
     const circle = document.createElement("span");
     const diameter = Math.max(button.clientWidth, button.clientHeight);
@@ -188,30 +138,9 @@ function createRipple(event) {
     circle.style.left = `${event.clientX - (button.offsetLeft + radius)}px`;
     circle.style.top = `${event.clientY - (button.offsetTop + radius)}px`;
     circle.classList.add("ripple");
-    /** 
-     * getting span from the html
-     * @type { HTMLSpanElement }
-     */
     const ripple = button.getElementsByClassName("ripple")[0];
     if (ripple) ripple.remove();
     button.appendChild(circle);
-}
-
-/** 
- * @param {Element} button
- * @param { HTMLOListElement } ol
- */
-
-function createList(button, ol) {
-    button.addEventListener("click", () => {
-        ol.replaceChildren();
-        const orderList = list.sort((a, b) => a.importance - b.importance);
-        for (let item of orderList) {
-            const li = document.createElement("li")
-            li.textContent = item.value;
-            ol.appendChild(li)
-        }
-    });
 }
 
 function main() {
@@ -219,7 +148,6 @@ function main() {
     addFormEvents(inputs, button);
     const buttons = document.querySelectorAll("button");
     for (let item of buttons) item.addEventListener('click', createRipple);
-    createList(createBtn, ol);
 }
 
 main();

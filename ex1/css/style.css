@@ -134,8 +134,21 @@ span.ripple {
     cursor: pointer;
 }
 
+.icon-button-add {
+    background: transparent;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
 .icon-button span {
     color: var(--remove);
+}
+
+.icon-button-add span {
+    color: var(--submit-bg)
 }
 
 #create-list {
